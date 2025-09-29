@@ -1,5 +1,8 @@
 import React from "react";
 import { LuHeart, LuMenu, LuSearch, LuUser } from "react-icons/lu";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import UserMenu from "./UserMenu";
 // Thay thế Next.js font
 const redressedStyle = {
   fontFamily: "'Redressed', cursive",
@@ -7,10 +10,8 @@ const redressedStyle = {
 };
 
 const Navbar = () => {
-  const handleHomeNavigate = () => {
-    window.location.href = '/';
-  };
-
+  const navigate = useNavigate();
+  const currentUser = useSelector((state) => state.user.currentUser);
   return (
     <>
       {/* Header */}
@@ -25,10 +26,10 @@ const Navbar = () => {
 
             {/* Navigation - Desktop */}
             <nav className="hidden md:flex space-x-8">
-              <a href="#" className="text-gray-700 hover:text-pink-500 font-medium">
+              <a onClick={() => navigate('/')} className="text-gray-700 hover:text-pink-500 font-medium cursor-pointer">
                 Trang chủ
               </a>
-              <a href="#" className="text-gray-700 hover:text-pink-500 font-medium">
+              <a onClick={() => navigate('/campaign')} className="text-gray-700 hover:text-pink-500 font-medium cursor-pointer">
                 Dự án
               </a>
               <a href="#" className="text-gray-700 hover:text-pink-500 font-medium">
@@ -47,13 +48,7 @@ const Navbar = () => {
               <button className="hidden md:block text-gray-500 hover:text-gray-700">
                 <LuSearch className="h-5 w-5" />
               </button>
-              <button className="hidden md:flex items-center text-gray-700 hover:text-pink-500">
-                <LuUser className="h-5 w-5 mr-1" />
-                <span className="text-sm">Đăng ký / Đăng nhập</span>
-              </button>
-              <button className="md:hidden">
-                <LuMenu className="h-6 w-6 text-gray-700" />
-              </button>
+              <UserMenu user={currentUser} />
             </div>
           </div>
         </div>

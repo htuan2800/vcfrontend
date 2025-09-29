@@ -11,8 +11,8 @@ axiosJWTUser.interceptors.request.use(async (config) => {
     if (decoded?.exp < currentTime.getTime() / 1000) {
         const data = await UserService.refreshTokenUser();
         // Cập nhật lại token mới vào localStorage
-        localStorage.setItem('access_token_user', JSON.stringify(data?.access_token));
-        config.headers['Authorization'] = `Bearer ${data?.access_token}`;
+        localStorage.setItem('access_token_user', JSON.stringify(data?.token));
+        config.headers['Authorization'] = `Bearer ${data?.token}`;
     } else {
         config.headers['Authorization'] = `Bearer ${storageData}`;
     }

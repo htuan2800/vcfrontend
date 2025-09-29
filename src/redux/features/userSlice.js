@@ -1,10 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-interface UserState {
-  currentUser: any | null;
-}
-
-export const initialState: UserState = {
+export const initialState = {
   currentUser: null
 };
 

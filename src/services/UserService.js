@@ -1,17 +1,30 @@
 import axios from 'axios';
-import { axiosJWTAdmin, axiosJWTUser } from './axiosJWTUser';
-const API_BASE_URL = import.meta.env.VITE_API_URL + '/users';
+import { axiosJWTUser } from './axiosJWTUser';
+import { API_BASE_URL } from '../config/api';
 
 const UserService = {
-  generateAuthUrl: async () => {
-      try {
-        const response = await axios.get(`${API_BASE_URL}/auth/google`, { withCredentials: true });
-        return response.data;
-      } catch (error) {
-        console.error('Error generating auth URL:', error);
-        throw error;
-      }
+
+  verifyEmail: async (token) => {
+    try {
+      console.log(token);
+      const response = await axios.get(`${API_BASE_URL}/auth/verify-email?token=${token}`);
+      return response.data;
+    } catch (error) {
+      console.error('Error verifying email:', error);
+      throw error;
+    }
   },
+
+  resendVerificationEmail: async (email) => {
+    try {
+      const response = await axios.post(`${API_BASE_URL}/auth/resend-verification`, { email });
+      return response.data;
+    } catch (error) {
+      console.error('Error resending verification email:', error);
+      throw error;
+    }
+  },
+
   getAllUsers: async () => {
     console.log("API_BASE_URL", API_BASE_URL)
     try {
@@ -25,7 +38,7 @@ const UserService = {
 
   getCurrentUser: async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/current-user`, {
+      const response = await axiosJWTUser.get(`${API_BASE_URL}/api/users/profile`, {
         withCredentials: true, // Cho phép gửi cookie tới backend
       });
       return response.data; // Trả về dữ liệu user
@@ -46,13 +59,8 @@ const UserService = {
     }
   },
 
-  getDetailsUser: async (id) => {
-    const res = await axiosJWTUser.get(`${API_BASE_URL}/get-details-user/${id}`)
-    return res.data
-  },
-
-  getDetailsAdmin: async (id) => {
-    const res = await axiosJWTAdmin.get(`${API_BASE_URL}/get-details-admin/${id}`)
+  getDetailsUser: async (userId) => {
+    const res = await axiosJWTUser.get(`${API_BASE_URL}/api/users/get-details-user/${userId}`)
     return res.data
   },
 
@@ -67,19 +75,14 @@ const UserService = {
   },
 
   refreshTokenUser: async () => {
-    const res = await axios.post(`${API_BASE_URL}/refresh-token-user`, {}, { withCredentials: true })
-    return res.data
-  },
-
-  refreshTokenAdmin: async () => {
-    const res = await axios.post(`${API_BASE_URL}/refresh-token-admin`, {}, { withCredentials: true })
+    const res = await axios.post(`${API_BASE_URL}/auth/refresh`, {}, { withCredentials: true })
     return res.data
   },
 
   register: async (userData) => {
     try {
       const response = await axios.post(
-        `${API_BASE_URL}/register`,
+        `${API_BASE_URL}/auth/signup`,
         userData,
         {
           withCredentials: true,
@@ -97,7 +100,7 @@ const UserService = {
 
   login: async (credentials) => {
     try {
-      const response = await axios.post(`${API_BASE_URL}/login`, credentials, {
+      const response = await axios.post(`${API_BASE_URL}/auth/signin`, credentials, {
         withCredentials: true, // Cho phép gửi cookie tới backend
       });
       return response.data; // Trả về dữ liệu user
@@ -121,7 +124,7 @@ const UserService = {
 
   logoutUser: async (credentials) => {
     try {
-      const res = await axios.post(`${API_BASE_URL}/log-out-user`, credentials, {
+      const res = await axios.post(`${API_BASE_URL}/auth/logout`, credentials, {
         withCredentials: true, // Cho phép gửi cookie tới backend
       })
       return res.data
@@ -130,19 +133,6 @@ const UserService = {
       throw error; // Để xử lý lỗi phía trên
     }
   },
-
-  logoutAdmin: async (credentials) => {
-    try {
-      const res = await axios.post(`${API_BASE_URL}/log-out-admin`, credentials, {
-        withCredentials: true, // Cho phép gửi cookie tới backend
-      })
-      return res.data
-    } catch (error) {
-      console.error("Error during login:", error);
-      throw error; // Để xử lý lỗi phía trên
-    }
-  },
-
 
   createUser: async (user) => {
     try {

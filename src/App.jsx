@@ -1,6 +1,9 @@
+import { useSelector } from 'react-redux'
 import './App.css'
 
 function App() {
+  const userState = useSelector((state) => state.user)
+  console.log('userState', userState)
   return (
     <>
       {/* Hero Section */}
@@ -10,7 +13,7 @@ function App() {
           <div
             className="w-full h-full bg-cover bg-center bg-no-repeat"
             style={{
-              backgroundImage: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect fill="%234A5568" width="1200" height="800"/><g fill="%23ffffff" fill-opacity="0.1"><circle cx="300" cy="200" r="100"/><circle cx="800" cy="400" r="150"/><circle cx="600" cy="600" r="80"/></g></svg>')`
+              backgroundImage: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://static.thiennguyen.app/public/banner/2025/6/23/1aaada3e-e069-4d11-a0d2-455cf7a9de41.jpg')`
             }}
           />
         </div>
@@ -18,7 +21,7 @@ function App() {
         {/* Hero Content */}
         <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
           {/* Pink Banner */}
-          <div className="inline-block bg-pink-500 text-white px-6 py-2 rounded-full text-sm font-medium mb-8 transform -rotate-1">
+          <div className="inline-block bg-pink-500 opacity-90 text-white px-6 py-2 rounded-full text-sm font-medium mb-8">
             Nền tảng gây quỹ cộng đồng trực tuyến
           </div>
 
@@ -30,29 +33,22 @@ function App() {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <button className="bg-red-500 hover:bg-red-600 text-white px-8 py-4 rounded-full text-lg font-semibold transition-all transform hover:scale-105 shadow-lg">
-              Bắt đầu gây quỹ
+            <button className="bg-red-500 hover:bg-red-600 text-white px-8 py-4 rounded-full text-lg font-semibold transition-all transform hover:scale-105 shadow-lg cursor-pointer">
+              Bắt đầu ủng hộ
             </button>
-            <button className="border-2 border-white text-white hover:bg-white hover:text-gray-900 px-8 py-4 rounded-full text-lg font-semibold transition-all">
+            <button className="border-2 border-white text-white hover:bg-white hover:text-gray-900 px-8 py-4 rounded-full text-lg font-semibold transition-all cursor-pointer">
               Tìm hiểu thêm
             </button>
-          </div>
-
-          {/* Stats or indicators */}
-          <div className="flex justify-center space-x-2 mt-12">
-            <div className="w-3 h-3 bg-white rounded-full opacity-100"></div>
-            <div className="w-3 h-3 bg-white rounded-full opacity-50"></div>
-            <div className="w-3 h-3 bg-white rounded-full opacity-30"></div>
           </div>
         </div>
 
         {/* Floating Elements */}
-        <div className="absolute top-1/4 left-10 hidden lg:block">
+        {/* <div className="absolute top-1/4 left-10 hidden lg:block">
           <div className="w-20 h-20 bg-white/10 rounded-full animate-pulse"></div>
         </div>
         <div className="absolute bottom-1/4 right-10 hidden lg:block">
           <div className="w-16 h-16 bg-pink-500/20 rounded-full animate-bounce"></div>
-        </div>
+        </div> */}
       </section>
 
       {/* Quick Stats Section */}
